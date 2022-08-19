@@ -31,9 +31,9 @@ def write_flashcard(row, model, deck):
         deck.add_note(note)
 
 def make_flashcards():
-    vocab_dir = 'C:/Users/mikei/OneDrive/Documents/Chinese/LessonVocab/test'#get_directory()
-    anki_file = ''#save_filename(initialdir=vocab_dir, title="Enter unique deck name")
-    deck_name = 'testing'#anki_file.split('/')[-1]
+    vocab_dir = get_directory()
+    anki_file = save_filename(initialdir=vocab_dir, title="Enter unique deck name")
+    deck_name = anki_file.split('/')[-1]
     deck_id = int(datetime.datetime.utcnow().timestamp())
 
     #Really important this deck id is unique!
@@ -51,8 +51,11 @@ def make_flashcards():
                 for index, row in df.iterrows():
                     write_flashcard(row, Chinese_English_model, my_deck)
                     write_flashcard([row[2],row[1],row[0]], Chinese_English_model, my_deck)
+    
+    pkg = genanki.Package(my_deck).write_to_file(vocab_dir + '/' + deck_name + '.apkg')   
+    print('Successfully processed. File written to:')   
     print(vocab_dir + '/' + deck_name + '.apkg')
-    pkg = genanki.Package(my_deck).write_to_file(vocab_dir + '/' + deck_name + '.apkg')      
+    print('Import this into anki as a new deck.')
 
 if __name__ == '__main__':
     make_flashcards()
