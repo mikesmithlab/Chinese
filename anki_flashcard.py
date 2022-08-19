@@ -1,25 +1,17 @@
 import genanki
 import pandas as pd
-from filehandling import BatchProcess, get_directory
-
+from filehandling import BatchProcess, get_directory, save_filename, get_name
+import uuid
 
 def write_flashcard(row, model, deck):
-    note = genanki.Note(model=model, fields=[row[2],row[1],row[0]])
+    note = genanki.Note(model=model, fields=[row[0],row[1],row[2]])
     deck.add_note(note)
-    #note2 = genanki.Note(model=model2, fields=[row[0],row[1],row[2]])
-    #deck.add_note(note2)
-    #return deck
-    
-    
 
-
-
-
-
-if __name__ == '__main__':
+def make_flashcards():
     vocab_dir = get_directory()
-    anki_file = 'C:\\Users\\mikei\\OneDrive\\Documents\\Chinese\\anki\\lessons.apkg'
-    deck_name = 'Lessons_Reverse'
+    anki_file = save_filename(initialdir=vocab_dir, title="Enter unique deck name")
+    deck_name = anki_file.split('/')[-1]
+    deck_id = uuid.uuid1()
 
     Chinese_English_model = genanki.Model(
         1607392319,
@@ -38,15 +30,9 @@ if __name__ == '__main__':
         ])
     
     
-
+    
     #Really important this deck id is unique!
-    
-    my_deck = genanki.Deck(205940000,deck_name)
-
-    
-
-    
-    
+    my_deck = genanki.Deck(deck_id,deck_name)  
     for file in BatchProcess(vocab_dir + '*.xlsx'):
         print(file)
         xls = pd.ExcelFile(file)
@@ -61,6 +47,7 @@ if __name__ == '__main__':
                 filtered_df = filtered_df[selector]
                 for index, row in filtered_df.iterrows():
                     write_flashcard(row, Chinese_English_model, my_deck)
+                    write_flashcard([row[2],row[1],row[0]], Chinese_English_model, my_deck)
     
     pkg = genanki.Package(my_deck).write_to_file(deck_name + '.apkg')      
     
