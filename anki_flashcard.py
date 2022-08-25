@@ -30,12 +30,12 @@ Chinese_English_model = genanki.Model(
         {
             "name": "Card 1",
             "qfmt": '<p class="hanzi">{{hanzi}}</p>',
-            "afmt": '{{FrontSide}}<hr id="answer"><p class="hanzi">{{hanzi}}</p><hr><p class="pinyin">{{pinyin}}</p><p class="english">{{english}}</p>',
+            "afmt": '{{FrontSide}}<hr id="answer"><p class="pinyin">{{pinyin}}</p><jr><p class="english">{{english}}</p>',
         },
         {
             "name": "Card 2",
             "qfmt": '<p class="english">{{english}}</p>',
-            "afmt": '{{FrontSide}}<hr id="answer"><p class="english">{{english}}</p><hr><p class="hanzi">{{hanzi}}</p><p class="pinyin">{{pinyin}}</p>',
+            "afmt": '{{FrontSide}}<hr id="answer"><p class="english">{{english}}</p><hr><p class="hanzi">{{hanzi}}</p><hr><p class="pinyin">{{pinyin}}</p>',
         },
         ],
         css=style
